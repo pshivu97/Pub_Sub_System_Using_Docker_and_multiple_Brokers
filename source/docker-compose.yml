@@ -1,0 +1,67 @@
+version: "3"
+services:
+  pub1:
+    build: ./pub1
+    container_name: publisher1
+    ports:
+      - "3000:3000"
+  pub2:
+    build: ./pub2
+    container_name: publisher2
+    ports:
+      - "3001:3001"
+  pub3:
+    build: ./pub3
+    container_name: publisher3
+    ports:
+      - "3002:3002"
+  subscriber1:
+    build: ./subscriber1
+    container_name: subscriber-1
+    ports:
+      - "4000:4000"
+  subscriber2:
+    build: ./subscriber2
+    container_name: subscriber-2
+    ports:
+      - "4001:4001"
+  subscriber3:
+    build: ./subscriber3
+    container_name: subscriber-3
+    ports:
+      - "4002:4002"
+  broker-service:
+    build: ./broker-service
+    container_name: broker-service
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/code
+    links:
+      - mongo
+  broker-service-1:
+    build: ./broker-service-1
+    container_name: broker-service-1
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./:/code
+    links:
+      - mongo
+  broker-service-2:
+    build: ./broker-service-2
+    container_name: broker-service-2
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./:/code
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+volumes:
+  mongodb:
